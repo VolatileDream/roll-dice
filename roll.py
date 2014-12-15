@@ -79,17 +79,11 @@ class ExprParser(plyplus.STransformer):
 	def function(self, exp):
 		name, value = exp.tail
 
-		if type(value) != type([]):
-			value = [value]
+		value = augment_to_list(value)
 
 		if name in self.functions:
 			func, init = self.functions[name]
-			value = functools.reduce( func, value, init )
-
-			if type(value) != type([]):
-				value = [ value ]
-
-			return value
+			return augment_to_list( functools.reduce( func, value, init ) )
 
 		raise SyntaxError("No function by name: " + name)
 
