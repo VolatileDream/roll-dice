@@ -92,7 +92,13 @@ class ExprParser(plyplus.STransformer):
 		self.functions = funcs
 
 
+import sys
+
 def get_line(prompt):
+	# stdin is not  a tty, print no prompt to stdout
+	if not sys.stdin.isatty():
+		prompt=""
+
 	try:
 		return input(prompt)
 	except EOFError:
